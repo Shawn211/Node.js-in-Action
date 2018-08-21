@@ -5,7 +5,12 @@ channel.clients = {};  // Id-client
 channel.subscriptions = {};  // Id-发布消息事件的执行函数(加入者，发布消息)
 var datas = '';
 
+channel.setMaxListeners(50);
+
 channel.on('join', function(id, client){
+    var welcome = 'Welcome!\n' + 'Guests online: ' + this.listeners('broadcast').length;
+    client.write(welcome + '\r\n');
+
     this.clients[id] = client;  // 添加join事件的监听器，保存用户的client对象，以便程序可以将数据发送给用户
     this.subscriptions[id] = function(senderId, message){
         if(id != senderId){  // 忽略发出这一广播数据的用户
@@ -17,12 +22,12 @@ channel.on('join', function(id, client){
 
 // 创建leave事件的监听器
 channel.on('leave', function(id){
-    channel.removeListener('broadcast', this.subscriptions[id]);
-    channel.emit('broadcast', id, id + ' has left the chat.\n');  // 移除指定客户端的broadcast监听器
+    channel.removeListener('broadcast', this.subscriptions[id]);  // 移除指定客户端的broadcast监听器
+    channel.emit('broadcast', id, id + ' has left the chat.\r\n');
 });
 
 channel.on('shutdown', function(){
-    channel.emit('broadcast', '', 'Chat has shutdown.\n');
+    channel.emit('broadcast', '', 'Chat has shutdown.\r\n');
     channel.removeAllListeners('broadcast');
 });
 
@@ -55,4 +60,4 @@ var server = net.createServer(function(client){
 });
 
 server.listen(8000);
-console.log('Server listening:8000')
+console.log('Server listening on port 8000.')
