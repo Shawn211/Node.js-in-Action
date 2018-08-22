@@ -65,9 +65,9 @@ var server = http.createServer(function(req, res){
     }
 });
 
-server.listen(8000);
-console.log('Server listening on port 8000.');
-console.log('GET: curl http://localhost:8000');
-console.log('POST: curl -d xxx http://localhost:8000');
-console.log('PUT: curl -X PUT -d xxx http://localhost:8000/x');
-console.log('DELETE: curl -X DELETE http://localhost:8000/x');
+server.listen(8888);
+console.log('Server listening on port 8888.');
+console.log('GET: curl http://localhost:8888');
+console.log('POST: curl -d xxx http://localhost:8888');
+console.log('PUT: curl -X PUT -d xxx http://localhost:8888/x');
+console.log('DELETE: curl -X DELETE http://localhost:8888/x');

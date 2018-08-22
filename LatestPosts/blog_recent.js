@@ -3,7 +3,7 @@ var fs = require('fs');
 
 http.createServer(function(req, res){
     if(req.url == '/') return getTitles(res);
-}).listen(8000);
+}).listen(8888);
 
 function getTitles(res){
     fs.readFile('./titles.json', function(err, data){
