@@ -50,7 +50,7 @@ exports.delete = function(db, req, res){
             [work.id],
             function(err){
                 if(err) throw err;
-                exports.show(db, res);
+                exports.show(db, res, true);
             }
         );
     });
@@ -77,7 +77,7 @@ exports.show = function(db, res, showArchived){
         archiveValue,  // 想要的工作记录归档状态
         function(err, rows){
             if(err) throw err;
-            var html = archiveValue ? '' : '<meta charset="utf-8"><a href="/archived">Archived Work</a>';
+            var html = '<meta charset="utf-8">' + (archiveValue ? '<a href="/">Unarchived Work</a>' : '<a href="/archived">Archived Work</a>');
             html += exports.workHitlistHtml(rows);  // 将结果格式化为HTML表格
             html += exports.workFormHtml();
             exports.sendHtml(res, html);
@@ -90,7 +90,7 @@ exports.showArchived = function(db, res){
 };
 
 exports.workHitlistHtml = function(rows){
-    var html = '<table>';
+    var html = '<table><tr><td><h2>Date</h2></td><td><h2>Hours</h2></td><td><h2>Description</h2></td></tr>';
     for(var i in rows){
         html += '<tr>';
         html += '<td>' + rows[i].date + '</td>';
